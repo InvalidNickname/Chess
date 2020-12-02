@@ -1,9 +1,29 @@
 import React from "react";
 import Board from "./board.component"
 import UserService from '../services/user.service'
-import {getHighlight, isAlly, isEnemyOrEmpty} from "../helpers/game.helper"
 
 class Game extends React.Component {
+
+    getZeroHighlight() {
+        return [
+            [0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0]
+        ]
+    }
+
+    isAlly(i, j, board, side) {
+        return board[i][j][1] === side
+    }
+
+    isEnemyOrEmpty(i, j, board, side) {
+        return board[i][j][1] !== side
+    }
 
     constructor(props) {
         super(props)
@@ -12,13 +32,20 @@ class Game extends React.Component {
                     this.setState({
                         loading: false,
                         current: state[0].state,
-                        whiteIsNext: state[0].whiteTurn
+                        whiteIsNext: state[0].whiteTurn,
+                        checkSet: state[0].checkSet,
+                        winner: state[0].winner
                     })
                 }
             }
         )
-        let highlight = getHighlight(0, 0, null)
+        let highlight = this.getZeroHighlight()
+        setTimeout(() => {
+            this.stateUpdater()
+        }, 2000)
         this.state = {
+            winner: "",
+            checkSet: "",
             loading: true,
             id: localStorage.getItem("gameId"),
             current: undefined,
@@ -27,37 +54,66 @@ class Game extends React.Component {
             figureRaised: "",
             side: localStorage.getItem("side"),
             raisedCoords: {y: -1, x: -1},
-            gameId: localStorage.getItem("gameId")
+            gameOver: false
         };
+        window.addEventListener("beforeunload", () => {
+            this.setState({gameOver: true})
+        })
+    }
+
+    stateUpdater() {
+        UserService.getGameState(localStorage.getItem("gameId")).then((state) => {
+                if (state[0] !== undefined) {
+                    this.setState({
+                        current: state[0].state,
+                        whiteIsNext: state[0].whiteTurn,
+                        checkSet: state[0].checkSet,
+                        winner: state[0].winner
+                    })
+                }
+            }
+        )
+        if (!this.state.gameOver) {
+            setTimeout(() => {
+                this.stateUpdater()
+            }, 1000)
+        }
     }
 
     handleClick(i, j) {
+        // если победа, дальше игра не продолжается
+        if (this.state.winner !== "") return
+        // иначе продолжаем
         let selfColor = this.state.side
         let myTurn = (selfColor === 'w' && this.state.whiteIsNext) || (selfColor === 'b' && !this.state.whiteIsNext)
         if (myTurn) {
-            if (isAlly(i, j, this.state.current, selfColor) && this.state.figureRaised === "") {
+            if (this.isAlly(i, j, this.state.current, selfColor) && this.state.figureRaised === "") {
                 // если нажатие на свою фигуру - поднимаем её
-                this.setState({
-                    highlight: getHighlight(i, j, this.state.current),
-                    raisedCoords: {y: i, x: j},
-                    figureRaised: this.state.current[i][j]
+                UserService.getHighlight(this.state.id, i, j).then((highlight) => {
+                    this.setState({
+                        highlight: highlight,
+                        raisedCoords: {y: i, x: j},
+                        figureRaised: this.state.current[i][j]
+                    })
                 })
             } else if (this.state.figureRaised !== "") {
                 if (i === this.state.raisedCoords.y && j === this.state.raisedCoords.x) {
                     // если нажимаем на поднятую фигуру - опускаем её
                     this.setState({
-                        highlight: getHighlight(0, 0, null),
+                        highlight: this.getZeroHighlight(),
                         raisedCoords: {y: -1, x: -1},
                         figureRaised: ""
                     })
-                } else if (isEnemyOrEmpty(i, j, this.state.current, selfColor) && this.state.highlight[i][j]) {
+                } else if (this.isEnemyOrEmpty(i, j, this.state.current, selfColor) && this.state.highlight[i][j]) {
                     // если фигура поднята и нажат один из доступных квадратов - передвигаем
                     UserService.makeMove(this.state.id, this.state.raisedCoords.y, this.state.raisedCoords.x, i, j).then((newState) => {
                             this.setState({
+                                winner: newState.winner,
+                                checkSet: newState.checkSet,
                                 current: newState.state,
                                 figureRaised: "",
                                 whiteIsNext: newState.whiteTurn,
-                                highlight: getHighlight(0, 0, null),
+                                highlight: this.getZeroHighlight(),
                                 raisedCoords: {y: -1, x: -1}
                             })
                         }
@@ -68,6 +124,7 @@ class Game extends React.Component {
     }
 
     render() {
+        console.log(this.state.winner)
         if (this.state.id === null) {
             return <div>Не выполнено подключение к игре</div>;
         } else {
@@ -88,6 +145,8 @@ class Game extends React.Component {
                             <div>ID игры: {this.state.id}</div>
                             <div>{status}</div>
                             <div>Ваш цвет: {this.state.side === 'w' ? "БЕЛЫЕ" : "ЧЁРНЫЕ"}</div>
+                            <div>{this.state.checkSet !== "" ? "ШАХ" : ""}</div>
+                            <div>{this.state.winner === 'w' ? "Победитель: БЕЛЫЕ" : this.state.winner === 'b' ? "Победитель: ЧЁРНЫЕ" : ""}</div>
                         </div>
                     </div>
                 );

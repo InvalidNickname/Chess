@@ -15,6 +15,7 @@ class Board extends React.Component {
         }
         return (
             <Square
+                key={8 * i + j}
                 className={className}
                 value={this.props.current[i][j]}
                 onClick={() => this.props.onClick(i, j)}

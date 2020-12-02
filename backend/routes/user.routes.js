@@ -7,4 +7,6 @@ module.exports = function (app) {
     app.get("/create", controller.createGame)
 
     app.post("/move/:id", controller.makeMove)
+
+    app.post("/highlight/:id", controller.getHighlight)
 };

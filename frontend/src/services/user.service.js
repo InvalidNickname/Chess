@@ -18,6 +18,11 @@ class UserService {
         const {data: state} = await axios.get(API_URL + "create")
         return state.id
     }
+
+    async getHighlight(id, i, j) {
+        const {data: highlight} = await axios.post(API_URL + "highlight/" + id, {i, j})
+        return highlight
+    }
 }
 
 export default new UserService();

@@ -13,9 +13,15 @@ const gameSchema = new mongoose.Schema({
     state: {
         type: [[]],
         required: true
+    },
+    checkSet: {
+        type: String
+    },
+    winner: {
+        type: String
     }
 })
 
-const gameModel = mongoose.model("Todo", gameSchema)
+const gameModel = mongoose.model("Game", gameSchema)
 
 module.exports = gameModel
