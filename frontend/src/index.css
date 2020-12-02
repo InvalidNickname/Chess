@@ -20,13 +20,9 @@ ol, ul {
 .square {
     border: 1px solid #999;
     float: left;
-    font-size: 24px;
-    font-weight: bold;
-    line-height: 34px;
     height: 68px;
     margin-right: -1px;
     margin-top: -1px;
-    padding: 0;
     text-align: center;
     width: 68px;
 }
@@ -57,11 +53,15 @@ ol, ul {
 }
 
 .white.highlight {
-    background: lightgoldenrodyellow;
+    border: salmon 4px solid;
+    height: 62px;
+    width: 62px;
 }
 
 .black.highlight {
-    background: salmon;
+    border: orangered 4px solid;
+    height: 62px;
+    width: 62px;
 }
 
 button {
