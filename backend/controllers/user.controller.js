@@ -21,7 +21,6 @@ exports.createGame = async (req, res, next) => {
         const state = await db.Game.create({id: id, whiteTurn: true, state: startPositions, checkSet: "", winner: ""})
         return success(res, state)
     } catch (err) {
-        console.log(err)
         next({status: 400, message: "failed to create a new game"})
     }
 };
@@ -49,7 +48,6 @@ exports.makeMove = async (req, res, next) => {
         await db.Game.findOneAndUpdate({id: req.params.id}, payload)
         return success(res, payload)
     } catch (err) {
-        console.log(err)
         next({status: 400, message: "failed to make move"})
     }
 }
