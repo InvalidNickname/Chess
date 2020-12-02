@@ -27,9 +27,18 @@ exports.createGame = async (req, res, next) => {
 
 exports.makeMove = async (req, res, next) => {
     try {
-        //const todo = await db.Todo.create(req.body)
-        return success(res, todo)
+        let base = await db.Game.findOne({id: req.params.id})
+        let state = base.state
+        let type = state[req.body.i][req.body.j]
+        state[req.body.i][req.body.j] = " "
+        state[req.body.toI][req.body.toJ] = type
+        let payload = base
+        payload.state = state
+        payload.whiteTurn = !base.whiteTurn
+        await db.Game.findOneAndUpdate({id: req.params.id}, payload)
+        return success(res, payload)
     } catch (err) {
+        console.log(err)
         next({status: 400, message: "failed to make move"})
     }
 }
