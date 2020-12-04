@@ -277,4 +277,8 @@ let checkCheck = (board, type) => {
     return false;
 }
 
-module.exports = {getHighlight, setStartPositions, checkCheck}
+let numberToLetter = (number) => {
+    return String.fromCharCode(number + 64)
+}
+
+module.exports = {getHighlight, setStartPositions, checkCheck, numberToLetter}

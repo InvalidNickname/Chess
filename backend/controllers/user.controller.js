@@ -45,7 +45,7 @@ exports.makeMove = async (req, res, next) => {
             payload.winner = ''
         }
         payload.checkSet = check
-        let move = type[0] + (req.body.toI + 1) + (req.body.toJ + 1)
+        let move = type[0] + GameChecker.numberToLetter(req.body.toJ + 1) + (req.body.toI + 1)
         let newHistory = base.history
         if (type[1] === 'w') {
             newHistory.push({w: move, b: ""})

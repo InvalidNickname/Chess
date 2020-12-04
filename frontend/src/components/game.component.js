@@ -150,10 +150,10 @@ class Game extends React.Component {
                             <div>{this.state.checkSet !== "" ? "ШАХ" : ""}</div>
                             <div>{this.state.winner === 'w' ? "Победитель: БЕЛЫЕ" : this.state.winner === 'b' ? "Победитель: ЧЁРНЫЕ" : ""}</div>
                             <hr className="line"/>
+                            <div>История ходов:</div>
                             <div className="history">
-                                <div>История ходов:</div>
-                                {this.state.history.map((i) => {
-                                    return <div>{i.w} {i.b}</div>
+                                {this.state.history.map((move, index) => {
+                                    return <div>{index + 1}) {move.w} {move.b}</div>
                                 })}
                             </div>
                         </div>
