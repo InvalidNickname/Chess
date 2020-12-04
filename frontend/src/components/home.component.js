@@ -9,13 +9,15 @@ class Home extends React.Component {
         this.createGame = this.createGame.bind(this)
         this.joinGame = this.joinGame.bind(this)
         this.state = {
-            gameId: undefined
+            gameId: undefined,
+            wrongId: false
         }
     }
 
     onChange(e) {
         this.setState({
-            gameId: e.target.value
+            gameId: e.target.value,
+            wrongId: false
         })
     }
 
@@ -30,11 +32,15 @@ class Home extends React.Component {
 
     joinGame() {
         if (this.state.gameId !== undefined) {
-            UserService.getGameState(this.state.gameId).then(() => {
-                localStorage.setItem("gameId", this.state.gameId)
-                localStorage.setItem("side", "b")
-                this.props.history.push("/game")
-                window.location.reload()
+            UserService.getGameState(this.state.gameId).then((state) => {
+                if (state.length !== 0) {
+                    localStorage.setItem("gameId", this.state.gameId)
+                    localStorage.setItem("side", "b")
+                    this.props.history.push("/game")
+                    window.location.reload()
+                } else {
+                    this.setState({wrongId: true})
+                }
             })
         }
     }
@@ -50,7 +56,9 @@ class Home extends React.Component {
                     Присоединиться
                 </button>
                 <br/>
-                <input type="text" placeholder={"Код игры"} value={this.state.gameId} onChange={this.onChange}/>
+                <input className="code-input" type="text" placeholder={"Код игры"} value={this.state.gameId}
+                       onChange={this.onChange}/>
+                {this.state.wrongId ? <div className="error">Игры с таким кодом не существует</div> : ""}
             </div>
         )
     }

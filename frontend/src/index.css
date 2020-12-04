@@ -93,6 +93,15 @@ ol, ul {
     width: 62px;
 }
 
+.code-input {
+    margin-bottom: 10px;
+    font: 14px "Century Gothic", Futura, sans-serif;
+}
+
+.error {
+    color: maroon;
+}
+
 .black.highlight {
     border: orangered 4px solid;
     height: 62px;
@@ -100,6 +109,7 @@ ol, ul {
 }
 
 button {
+    font: 14px "Century Gothic", Futura, sans-serif;
     background: gainsboro;
     width: max-content;
     padding-left: 4px;

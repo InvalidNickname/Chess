@@ -133,7 +133,6 @@ class Game extends React.Component {
             if (this.state.loading) {
                 return <div>Загрузка</div>;
             } else {
-                let status = 'Сейчас ходят: ' + (this.state.whiteIsNext ? 'БЕЛЫЕ' : 'ЧЁРНЫЕ');
                 return (
                     <div className="game">
                         <div className="game-board">
@@ -145,7 +144,7 @@ class Game extends React.Component {
                         </div>
                         <div className="game-info" align="left">
                             <div>ID игры: {this.state.id}</div>
-                            <div>{status}</div>
+                            <div>Сейчас ходят: {this.state.whiteIsNext ? 'БЕЛЫЕ' : 'ЧЁРНЫЕ'}</div>
                             <div>Ваш цвет: {this.state.side === 'w' ? "БЕЛЫЕ" : "ЧЁРНЫЕ"}</div>
                             <div>{this.state.checkSet !== "" ? "ШАХ" : ""}</div>
                             <div>{this.state.winner === 'w' ? "Победитель: БЕЛЫЕ" : this.state.winner === 'b' ? "Победитель: ЧЁРНЫЕ" : ""}</div>

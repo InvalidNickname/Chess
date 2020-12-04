@@ -281,4 +281,13 @@ let numberToLetter = (number) => {
     return String.fromCharCode(number + 64)
 }
 
-module.exports = {getHighlight, setStartPositions, checkCheck, numberToLetter}
+let createId = () => {
+    let chars = 'ЦУКЕНГШЩЗХФЫВАПРОЛДЖЭЯЧСМИТБЮ'
+    let id = ''
+    for (let i = 0; i < 5; i++) {
+        id += chars[Math.round(Math.random() * 28)]
+    }
+    return id
+}
+
+module.exports = {getHighlight, setStartPositions, checkCheck, numberToLetter, createId}

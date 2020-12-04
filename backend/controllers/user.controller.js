@@ -14,9 +14,19 @@ exports.getGameState = async (req, res, next) => {
     }
 };
 
+async function createUniqueId() {
+    let id = GameChecker.createId()
+    const found = await db.Game.findOne({id: id})
+    if (found === null) {
+        return id
+    } else {
+        await createUniqueId()
+    }
+}
+
 exports.createGame = async (req, res, next) => {
     try {
-        let id = Date.now()
+        let id = await createUniqueId()
         let startPositions = GameChecker.setStartPositions()
         const state = await db.Game.create({id: id, whiteTurn: true, state: startPositions, checkSet: "", winner: ""})
         return success(res, state)
