@@ -19,6 +19,9 @@ const gameSchema = new mongoose.Schema({
     },
     winner: {
         type: String
+    },
+    history: {
+        type: []
     }
 })
 

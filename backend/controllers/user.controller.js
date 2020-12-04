@@ -37,7 +37,6 @@ exports.makeMove = async (req, res, next) => {
         let payload = base
         payload.state = state
         payload.whiteTurn = !base.whiteTurn
-        payload.checkSet = check
         if (base.checkSet.includes('b') && check.includes('b')) {
             payload.winner = 'b'
         } else if (base.checkSet.includes('w') && check.includes('w')) {
@@ -45,9 +44,20 @@ exports.makeMove = async (req, res, next) => {
         } else {
             payload.winner = ''
         }
+        payload.checkSet = check
+        let move = type[0] + (req.body.toI + 1) + (req.body.toJ + 1)
+        let newHistory = base.history
+        if (type[1] === 'w') {
+            newHistory.push({w: move, b: ""})
+        } else {
+            newHistory[newHistory.length - 1].b = move
+        }
+        payload.history = newHistory
+        console.log(newHistory)
         await db.Game.findOneAndUpdate({id: req.params.id}, payload)
         return success(res, payload)
     } catch (err) {
+        console.log(err)
         next({status: 400, message: "failed to make move"})
     }
 }

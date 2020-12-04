@@ -5,7 +5,7 @@ mongoose.connect("mongodb://localhost/chess", {
     useNewUrlParser: true,
     useUnifiedTopology: true,
 })
-mongoose.set("debug", true)
+mongoose.set("debug", false)
 mongoose.Promise = Promise
 
 module.exports.Game = require("./game.model")

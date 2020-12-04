@@ -34,7 +34,8 @@ class Game extends React.Component {
                         current: state[0].state,
                         whiteIsNext: state[0].whiteTurn,
                         checkSet: state[0].checkSet,
-                        winner: state[0].winner
+                        winner: state[0].winner,
+                        history: state[0].history,
                     })
                 }
             }
@@ -68,7 +69,8 @@ class Game extends React.Component {
                         current: state[0].state,
                         whiteIsNext: state[0].whiteTurn,
                         checkSet: state[0].checkSet,
-                        winner: state[0].winner
+                        winner: state[0].winner,
+                        history: state[0].history
                     })
                 }
             }
@@ -111,6 +113,7 @@ class Game extends React.Component {
                                 winner: newState.winner,
                                 checkSet: newState.checkSet,
                                 current: newState.state,
+                                history: newState.history,
                                 figureRaised: "",
                                 whiteIsNext: newState.whiteTurn,
                                 highlight: this.getZeroHighlight(),
@@ -124,7 +127,6 @@ class Game extends React.Component {
     }
 
     render() {
-        console.log(this.state.winner)
         if (this.state.id === null) {
             return <div>Не выполнено подключение к игре</div>;
         } else {
@@ -147,6 +149,13 @@ class Game extends React.Component {
                             <div>Ваш цвет: {this.state.side === 'w' ? "БЕЛЫЕ" : "ЧЁРНЫЕ"}</div>
                             <div>{this.state.checkSet !== "" ? "ШАХ" : ""}</div>
                             <div>{this.state.winner === 'w' ? "Победитель: БЕЛЫЕ" : this.state.winner === 'b' ? "Победитель: ЧЁРНЫЕ" : ""}</div>
+                            <hr className="line"/>
+                            <div className="history">
+                                <div>История ходов:</div>
+                                {this.state.history.map((i) => {
+                                    return <div>{i.w} {i.b}</div>
+                                })}
+                            </div>
                         </div>
                     </div>
                 );
