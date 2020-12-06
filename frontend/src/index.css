@@ -1,3 +1,8 @@
+@font-face {
+    font-family: Oswald;
+    src: url("fonts/Oswald.ttf") format("truetype");
+}
+
 body {
     font: 14px "Century Gothic", Futura, sans-serif;
     margin: 20px;
@@ -101,6 +106,7 @@ ol, ul {
 .code-input {
     margin-bottom: 10px;
     font: 14px "Century Gothic", Futura, sans-serif;
+    outline: none;
 }
 
 .error {
@@ -114,14 +120,58 @@ ol, ul {
 }
 
 button {
-    font: 14px "Century Gothic", Futura, sans-serif;
-    background: gainsboro;
+    position: relative;
+    font: 14px Oswald, Futura, sans-serif;
+    background: white;
     width: max-content;
-    padding-left: 4px;
-    padding-right: 4px;
+    padding: 4px 8px;
     margin: 8px 8px;
-    border: darkgray 2px solid;
-    border-radius: 3px;
+    border: darkgray 1px solid;
+    color: #0f1923;
     display: inline-block;
     font-size: 16px;
+    text-transform: uppercase;
+}
+
+button:focus {
+    outline: none;
+}
+
+button:hover {
+    color: #ece8e1;
+    transition: 0.5s ease-out all;
+    background: lightslategray;
+}
+
+button:before {
+    display: block;
+    content: "";
+    width: 4px;
+    height: 4px;
+    left: -1px;
+    top: -1px;
+    background: white;
+    position: absolute;
+    transition: 0.5s ease-out all;
+}
+
+button:hover:before {
+    background: transparent;
+    transition: 0.5s ease-out all;
+}
+
+button:after {
+    display: block;
+    content: "";
+    width: 6px;
+    height: 6px;
+    bottom: -1px;
+    right: -1px;
+    background: white;
+    position: absolute;
+}
+
+button:hover:after {
+    background: darkgray;
+    transition: 0.5s ease-out all;
 }

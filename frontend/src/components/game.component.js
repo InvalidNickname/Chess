@@ -1,6 +1,7 @@
 import React from "react";
 import Board from "./board.component"
 import UserService from '../services/user.service'
+import GameChecker from '../services/game.checker'
 
 class Game extends React.Component {
 
@@ -27,23 +28,7 @@ class Game extends React.Component {
 
     constructor(props) {
         super(props)
-        UserService.getGameState(localStorage.getItem("gameId")).then((state) => {
-                if (state[0] !== undefined) {
-                    this.setState({
-                        loading: false,
-                        current: state[0].state,
-                        whiteIsNext: state[0].whiteTurn,
-                        checkSet: state[0].checkSet,
-                        winner: state[0].winner,
-                        history: state[0].history,
-                    })
-                }
-            }
-        )
         let highlight = this.getZeroHighlight()
-        setTimeout(() => {
-            this.stateUpdater()
-        }, 2000)
         this.state = {
             winner: "",
             checkSet: "",
@@ -55,11 +40,34 @@ class Game extends React.Component {
             figureRaised: "",
             side: localStorage.getItem("side"),
             raisedCoords: {y: -1, x: -1},
-            gameOver: false
-        };
-        window.addEventListener("beforeunload", () => {
-            this.setState({gameOver: true})
-        })
+            history: [],
+            gameOver: false,
+            mode: localStorage.getItem("mode")
+        }
+        if (this.state.mode === 'online') {
+            UserService.getGameState(localStorage.getItem("gameId")).then((state) => {
+                    if (state[0] !== undefined) {
+                        this.setState({
+                            loading: false,
+                            current: state[0].state,
+                            whiteIsNext: state[0].whiteTurn,
+                            checkSet: state[0].checkSet,
+                            winner: state[0].winner,
+                            history: state[0].history,
+                        })
+                    }
+                }
+            )
+            setTimeout(() => {
+                this.stateUpdater()
+            }, 2000)
+            window.addEventListener("beforeunload", () => {
+                this.setState({gameOver: true})
+            })
+        } else {
+            this.state.current = GameChecker.setStartPositions()
+            this.state.loading = false
+        }
     }
 
     stateUpdater() {
@@ -91,13 +99,21 @@ class Game extends React.Component {
         if (myTurn) {
             if (this.isAlly(i, j, this.state.current, selfColor) && this.state.figureRaised === "") {
                 // если нажатие на свою фигуру - поднимаем её
-                UserService.getHighlight(this.state.id, i, j).then((highlight) => {
+                if (this.state.mode === 'online') {
+                    UserService.getHighlight(this.state.id, i, j).then((highlight) => {
+                        this.setState({
+                            highlight: highlight,
+                            raisedCoords: {y: i, x: j},
+                            figureRaised: this.state.current[i][j]
+                        })
+                    })
+                } else {
                     this.setState({
-                        highlight: highlight,
+                        highlight: GameChecker.getHighlight(i, j, this.state.current),
                         raisedCoords: {y: i, x: j},
                         figureRaised: this.state.current[i][j]
                     })
-                })
+                }
             } else if (this.state.figureRaised !== "") {
                 if (i === this.state.raisedCoords.y && j === this.state.raisedCoords.x) {
                     // если нажимаем на поднятую фигуру - опускаем её
@@ -108,19 +124,37 @@ class Game extends React.Component {
                     })
                 } else if (this.isEnemyOrEmpty(i, j, this.state.current, selfColor) && this.state.highlight[i][j]) {
                     // если фигура поднята и нажат один из доступных квадратов - передвигаем
-                    UserService.makeMove(this.state.id, this.state.raisedCoords.y, this.state.raisedCoords.x, i, j).then((newState) => {
-                            this.setState({
-                                winner: newState.winner,
-                                checkSet: newState.checkSet,
-                                current: newState.state,
-                                history: newState.history,
-                                figureRaised: "",
-                                whiteIsNext: newState.whiteTurn,
-                                highlight: this.getZeroHighlight(),
-                                raisedCoords: {y: -1, x: -1}
-                            })
-                        }
-                    )
+                    if (this.state.mode === 'online') {
+                        UserService.makeMove(this.state.id, this.state.raisedCoords.y, this.state.raisedCoords.x, i, j).then((newState) => {
+                                this.setState({
+                                    winner: newState.winner,
+                                    checkSet: newState.checkSet,
+                                    current: newState.state,
+                                    history: newState.history,
+                                    figureRaised: "",
+                                    whiteIsNext: newState.whiteTurn,
+                                    highlight: this.getZeroHighlight(),
+                                    raisedCoords: {y: -1, x: -1}
+                                })
+                            }
+                        )
+                    } else {
+                        let newState = GameChecker.makeMove(
+                            this.state.current, this.state.raisedCoords.y, this.state.raisedCoords.x, i, j,
+                            this.state.whiteIsNext, this.state.checkSet, this.state.history
+                        )
+                        this.setState({
+                            winner: newState.winner,
+                            checkSet: newState.check,
+                            current: newState.state,
+                            history: newState.history,
+                            side: this.state.side === 'w' ? 'b' : 'w',
+                            figureRaised: "",
+                            whiteIsNext: newState.whiteTurn,
+                            highlight: this.getZeroHighlight(),
+                            raisedCoords: {y: -1, x: -1}
+                        })
+                    }
                 }
             }
         }
@@ -148,8 +182,12 @@ class Game extends React.Component {
                             />
                         </div>
                         <div className="game-info" align="left">
-                            <div>ID игры: {this.state.id} <span className="copy-button"
-                                                                onClick={() => this.copyCode()}>⎘</span></div>
+                            {
+                                this.state.mode === 'online' &&
+                                <div>ID игры: {this.state.id} <span className="copy-button"
+                                                                    onClick={() => this.copyCode()}>⎘</span>
+                                </div>
+                            }
                             <div>Сейчас ходят: {this.state.whiteIsNext ? 'БЕЛЫЕ' : 'ЧЁРНЫЕ'}</div>
                             <div>Ваш цвет: {this.state.side === 'w' ? "БЕЛЫЕ" : "ЧЁРНЫЕ"}</div>
                             <div>{this.state.checkSet !== "" ? "ШАХ" : ""}</div>

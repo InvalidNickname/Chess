@@ -63,7 +63,6 @@ exports.makeMove = async (req, res, next) => {
             newHistory[newHistory.length - 1].b = move
         }
         payload.history = newHistory
-        console.log(newHistory)
         await db.Game.findOneAndUpdate({id: req.params.id}, payload)
         return success(res, payload)
     } catch (err) {

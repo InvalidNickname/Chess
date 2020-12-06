@@ -8,6 +8,7 @@ class Home extends React.Component {
         this.onChange = this.onChange.bind(this)
         this.createGame = this.createGame.bind(this)
         this.joinGame = this.joinGame.bind(this)
+        this.createOfflineGame = this.createOfflineGame.bind(this)
         this.state = {
             gameId: undefined,
             wrongId: false
@@ -23,6 +24,7 @@ class Home extends React.Component {
 
     createGame() {
         UserService.createGame().then((id) => {
+            localStorage.setItem("mode", "online")
             localStorage.setItem("gameId", id)
             localStorage.setItem("side", "w")
             this.props.history.push("/game")
@@ -34,6 +36,7 @@ class Home extends React.Component {
         if (this.state.gameId !== undefined) {
             UserService.getGameState(this.state.gameId).then((state) => {
                 if (state.length !== 0) {
+                    localStorage.setItem("mode", "online")
                     localStorage.setItem("gameId", this.state.gameId)
                     localStorage.setItem("side", "b")
                     this.props.history.push("/game")
@@ -45,9 +48,19 @@ class Home extends React.Component {
         }
     }
 
+    createOfflineGame() {
+        localStorage.setItem("mode", "offline")
+        this.props.history.push("/game")
+        window.location.reload()
+    }
+
     render() {
         return (
             <div>
+                <button onClick={this.createOfflineGame}>
+                    Играть на одном устройстве
+                </button>
+                <hr className="line"/>
                 <button onClick={this.createGame}>
                     Создать игру
                 </button>
