@@ -4,14 +4,9 @@ import Game from "./components/game.component";
 import Home from "./components/home.component";
 
 class App extends Component {
-
-    constructor(props) {
-        super(props);
-    }
-
     render() {
         return (
-            <div align="center">
+            <div align="center" onContextMenu={(e) => e.preventDefault()}>
                 <div>
                     <Switch>
                         <Route exact path="/" component={Home}/>

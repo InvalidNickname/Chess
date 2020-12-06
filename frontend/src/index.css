@@ -1,6 +1,7 @@
 body {
     font: 14px "Century Gothic", Futura, sans-serif;
     margin: 20px;
+    user-select: none;
 }
 
 ol, ul {
@@ -11,6 +12,10 @@ ol, ul {
     clear: both;
     content: "";
     display: table;
+}
+
+.copy-button:hover {
+    cursor: pointer;
 }
 
 .status {

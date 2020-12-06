@@ -126,6 +126,10 @@ class Game extends React.Component {
         }
     }
 
+    copyCode() {
+        navigator.clipboard.writeText(this.state.id)
+    }
+
     render() {
         if (this.state.id === null) {
             return <div>Не выполнено подключение к игре</div>;
@@ -137,13 +141,15 @@ class Game extends React.Component {
                     <div className="game">
                         <div className="game-board">
                             <Board
+                                side={this.state.side}
                                 current={this.state.current}
                                 onClick={(i, j) => this.handleClick(i, j)}
                                 highlight={this.state.highlight}
                             />
                         </div>
                         <div className="game-info" align="left">
-                            <div>ID игры: {this.state.id}</div>
+                            <div>ID игры: {this.state.id} <span className="copy-button"
+                                                                onClick={() => this.copyCode()}>⎘</span></div>
                             <div>Сейчас ходят: {this.state.whiteIsNext ? 'БЕЛЫЕ' : 'ЧЁРНЫЕ'}</div>
                             <div>Ваш цвет: {this.state.side === 'w' ? "БЕЛЫЕ" : "ЧЁРНЫЕ"}</div>
                             <div>{this.state.checkSet !== "" ? "ШАХ" : ""}</div>

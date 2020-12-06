@@ -25,10 +25,19 @@ class Board extends React.Component {
 
     render() {
         let board = Array(8)
-        for (let i = 0; i < 8; i++) {
-            board[i] = Array(8)
-            for (let j = 0; j < 8; j++) {
-                board[i][j] = this.renderSquare(i, j, this.props.highlight[i][j])
+        if (this.props.side === 'w') {
+            for (let i = 0; i < 8; i++) {
+                board[i] = Array(8)
+                for (let j = 0; j < 8; j++) {
+                    board[i][j] = this.renderSquare(i, j, this.props.highlight[i][j])
+                }
+            }
+        } else {
+            for (let i = 0; i < 8; i++) {
+                board[7 - i] = Array(8)
+                for (let j = 0; j < 8; j++) {
+                    board[7 - i][7 - j] = this.renderSquare(i, j, this.props.highlight[i][j])
+                }
             }
         }
         return (
