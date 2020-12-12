@@ -282,10 +282,10 @@ let numberToLetter = (number) => {
 }
 
 let createId = () => {
-    let chars = 'ЦУКЕНГШЩЗХФЫВАПРОЛДЖЭЯЧСМИТБЮ'
+    let chars = '0123456789'
     let id = ''
-    for (let i = 0; i < 5; i++) {
-        id += chars[Math.round(Math.random() * 28)]
+    for (let i = 0; i < 9; i++) {
+        id += chars[Math.round(Math.random() * 9)]
     }
     return id
 }

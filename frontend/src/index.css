@@ -7,6 +7,7 @@ body {
     font: 14px "Century Gothic", Futura, sans-serif;
     margin: 20px;
     user-select: none;
+    height: 95vh;
 }
 
 ol, ul {
@@ -30,10 +31,11 @@ ol, ul {
 .square {
     border: 1px solid #999;
     float: left;
-    height: 68px;
+    height: 9vh;
     margin-right: -1px;
     margin-top: -1px;
-    width: 68px;
+    width: 9vh;
+    transition: 0.2s ease-out all;
 }
 
 .square:focus {
@@ -41,30 +43,26 @@ ol, ul {
 }
 
 .vertical-row-number {
-    line-height: 68px;
-    height: 68px;
-    width: 30px;
+    line-height: 9vh;
+    height: 9vh;
+    width: 25px;
     text-align: center;
     float: left;
 }
 
 .horizontal-row-number {
-    width: 68px;
-    height: 30px;
+    width: 9vh;
+    height: 25px;
     margin-right: 1px;
     text-align: center;
     float: left;
 }
 
 .empty-square {
-    height: 30px;
-    width: 30px;
+    height: 25px;
+    width: 25px;
     margin-right: 1px;
     float: left;
-}
-
-.kbd-navigation .square:focus {
-    background: #ddd;
 }
 
 .line {
@@ -81,12 +79,17 @@ ol, ul {
 
 .history {
     margin-top: 5px;
-    height: 510px;
+    height: 60vh;
     overflow-y: auto;
 }
 
 .game-info {
     margin-left: 20px;
+    position: relative;
+}
+
+.game-board {
+    position: relative;
 }
 
 .white {
@@ -99,8 +102,14 @@ ol, ul {
 
 .white.highlight {
     border: salmon 4px solid;
-    height: 62px;
-    width: 62px;
+    height: calc(9vh - 6px);
+    width: calc(9vh - 6px);
+}
+
+.black.highlight {
+    border: orangered 4px solid;
+    height: calc(9vh - 6px);
+    width: calc(9vh - 6px);
 }
 
 .code-input {
@@ -111,12 +120,6 @@ ol, ul {
 
 .error {
     color: maroon;
-}
-
-.black.highlight {
-    border: orangered 4px solid;
-    height: 62px;
-    width: 62px;
 }
 
 button {
@@ -174,4 +177,25 @@ button:after {
 button:hover:after {
     background: darkgray;
     transition: 0.5s ease-out all;
+}
+
+.fullscreen-alert {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    font-size: 20px;
+    background: white;
+    padding: 4px;
+    border: darkgray 1px solid;
+    transform: translate(-50%, -50%);
+}
+
+.exit-button {
+    position: absolute;
+    bottom: 0;
+}
+
+/*для дебажного ассистента*/
+input#voice, .bubble {
+    color: black !important;
 }

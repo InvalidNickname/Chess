@@ -28,19 +28,18 @@ class Home extends React.Component {
             localStorage.setItem("gameId", id)
             localStorage.setItem("side", "w")
             this.props.history.push("/game")
-            window.location.reload()
         })
     }
 
     joinGame() {
         if (this.state.gameId !== undefined) {
+            console.log(this.state.gameId)
             UserService.getGameState(this.state.gameId).then((state) => {
                 if (state.length !== 0) {
                     localStorage.setItem("mode", "online")
                     localStorage.setItem("gameId", this.state.gameId)
                     localStorage.setItem("side", "b")
                     this.props.history.push("/game")
-                    window.location.reload()
                 } else {
                     this.setState({wrongId: true})
                 }
@@ -48,10 +47,22 @@ class Home extends React.Component {
         }
     }
 
+    joinGameById(id) {
+        UserService.getGameState(id).then((state) => {
+            if (state.length !== 0) {
+                localStorage.setItem("mode", "online")
+                localStorage.setItem("gameId", id)
+                localStorage.setItem("side", "b")
+                this.props.history.push("/game")
+            } else {
+                this.setState({wrongId: true})
+            }
+        })
+    }
+
     createOfflineGame() {
         localStorage.setItem("mode", "offline")
         this.props.history.push("/game")
-        window.location.reload()
     }
 
     render() {
