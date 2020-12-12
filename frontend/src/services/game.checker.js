@@ -109,6 +109,30 @@ let kingMoveCheck = (i, j, board, type, basic) => {
             basic[i - 1][j + 1] = 1
         }
     }
+    // рокировка
+    if (type[1] === 'w') {
+        if (i === 7 && j === 4) {
+            // правая ладья
+            if (board[7][7][0] === 'r' && board[7][6] === ' ' && board[7][5] === ' ') {
+                basic[7][6] = 1
+            }
+            // левая ладья
+            if (board[7][0][0] === 'r' && board[7][1] === ' ' && board[7][2] === ' ' && board[7][3] === ' ') {
+                basic[7][2] = 1
+            }
+        }
+    } else {
+        if (i === 0 && j === 4) {
+            // правая ладья
+            if (board[0][7][0] === 'r' && board[0][6] === ' ' && board[0][5] === ' ') {
+                basic[0][6] = 1
+            }
+            // левая ладья
+            if (board[0][0][0] === 'r' && board[0][1] === ' ' && board[0][2] === ' ' && board[0][3] === ' ') {
+                basic[0][2] = 1
+            }
+        }
+    }
 }
 
 let rookMoveCheck = (i, j, board, type, basic) => {
@@ -279,8 +303,37 @@ let checkCheck = (board, type) => {
 
 let makeMove = (state, i, j, toI, toJ, whiteTurn, checkSet, history) => {
     let type = state[i][j]
-    state[i][j] = " "
-    state[toI][toJ] = type
+    // проверка рокировки
+    if (state[i][j] === 'kw' && toI === 7 && toJ === 6 && i === 7 && j === 4) {
+        state[7][6] = 'kw'
+        state[7][5] = 'rw'
+        state[7][4] = ' '
+        state[7][7] = ' '
+    } else if (state[i][j] === 'kw' && toI === 7 && toJ === 2 && i === 7 && j === 4) {
+        state[7][2] = 'kw'
+        state[7][3] = 'rw'
+        state[7][4] = ' '
+        state[7][0] = ' '
+    } else if (state[i][j] === 'kb' && toI === 0 && toJ === 6 && i === 0 && j === 4) {
+        state[0][6] = 'kb'
+        state[0][5] = 'rb'
+        state[0][4] = ' '
+        state[0][7] = ' '
+    } else if (state[i][j] === 'kb' && toI === 0 && toJ === 2 && i === 0 && j === 4) {
+        state[0][2] = 'kb'
+        state[0][3] = 'rb'
+        state[0][4] = ' '
+        state[0][0] = ' '
+    } else if (state[i][j] === 'pw' && toI === 0) {
+        state[i][j] = " "
+        state[toI][toJ] = 'qw'
+    } else if (state[i][j] === 'pb' && toI === 7) {
+        state[i][j] = " "
+        state[toI][toJ] = 'qb'
+    }else {
+        state[i][j] = " "
+        state[toI][toJ] = type
+    }
     let check = checkCheck(state, 'w') ? "b" : ""
     check += checkCheck(state, 'b') ? "w" : ""
     whiteTurn = !whiteTurn

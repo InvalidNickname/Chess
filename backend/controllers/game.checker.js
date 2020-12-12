@@ -109,6 +109,30 @@ let kingMoveCheck = (i, j, board, type, basic) => {
             basic[i - 1][j + 1] = 1
         }
     }
+    // рокировка
+    if (type[1] === 'w') {
+        if (i === 7 && j === 4) {
+            // правая ладья
+            if (board[7][7][0] === 'r' && board[7][6] === ' ' && board[7][5] === ' ') {
+                basic[7][6] = 1
+            }
+            // левая ладья
+            if (board[7][0][0] === 'r' && board[7][1] === ' ' && board[7][2] === ' ' && board[7][3] === ' ') {
+                basic[7][2] = 1
+            }
+        }
+    } else {
+        if (i === 0 && j === 4) {
+            // правая ладья
+            if (board[0][7][0] === 'r' && board[0][6] === ' ' && board[0][5] === ' ') {
+                basic[0][6] = 1
+            }
+            // левая ладья
+            if (board[0][0][0] === 'r' && board[0][1] === ' ' && board[0][2] === ' ' && board[0][3] === ' ') {
+                basic[0][2] = 1
+            }
+        }
+    }
 }
 
 let rookMoveCheck = (i, j, board, type, basic) => {

@@ -40,8 +40,37 @@ exports.makeMove = async (req, res, next) => {
         let base = await db.Game.findOne({id: req.params.id})
         let state = base.state
         let type = state[req.body.i][req.body.j]
-        state[req.body.i][req.body.j] = " "
-        state[req.body.toI][req.body.toJ] = type
+        // проверка рокировки
+        if (state[req.body.i][req.body.j] === 'kw' && req.body.toI === 7 && req.body.toJ === 6 && req.body.i === 7 && req.body.j === 4) {
+            state[7][6] = 'kw'
+            state[7][5] = 'rw'
+            state[7][4] = ' '
+            state[7][7] = ' '
+        } else if (state[req.body.i][req.body.j] === 'kw' && req.body.toI === 7 && req.body.toJ === 2 && req.body.i === 7 && req.body.j === 4) {
+            state[7][2] = 'kw'
+            state[7][3] = 'rw'
+            state[7][4] = ' '
+            state[7][0] = ' '
+        } else if (state[req.body.i][req.body.j] === 'kb' && req.body.toI === 0 && req.body.toJ === 6 && req.body.i === 0 && req.body.j === 4) {
+            state[0][6] = 'kb'
+            state[0][5] = 'rb'
+            state[0][4] = ' '
+            state[0][7] = ' '
+        } else if (state[req.body.i][req.body.j] === 'kb' && req.body.toI === 0 && req.body.toJ === 2 && req.body.i === 0 && req.body.j === 4) {
+            state[0][2] = 'kb'
+            state[0][3] = 'rb'
+            state[0][4] = ' '
+            state[0][0] = ' '
+        } else if (state[req.body.i][req.body.j] === 'pw' && req.body.toI === 0) {
+            state[req.body.i][req.body.j] = " "
+            state[req.body.toI][req.body.toJ] = 'qw'
+        } else if (state[req.body.i][req.body.j] === 'pb' && req.body.toI === 7) {
+            state[req.body.i][req.body.j] = " "
+            state[req.body.toI][req.body.toJ] = 'qb'
+        } else {
+            state[req.body.i][req.body.j] = " "
+            state[req.body.toI][req.body.toJ] = type
+        }
         let check = GameChecker.checkCheck(state, 'w') ? "b" : ""
         check += GameChecker.checkCheck(state, 'b') ? "w" : ""
         let payload = base
