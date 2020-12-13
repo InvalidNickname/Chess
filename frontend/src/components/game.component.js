@@ -44,7 +44,8 @@ class Game extends React.Component {
             history: [],
             gameOver: false,
             mode: localStorage.getItem("mode"),
-            showIdAlert: true
+            showIdAlert: true,
+            impossibleMove: false
         }
         if (this.state.mode === 'online') {
             UserService.getGameState(localStorage.getItem("gameId")).then((state) => {
@@ -92,11 +93,21 @@ class Game extends React.Component {
         }
     }
 
+    alertImpossibleMove() {
+        this.setState({impossibleMove: true})
+        setTimeout(() => {
+            this.setState({impossibleMove: false})
+        }, 1500)
+    }
+
     makeMove(i, j, toI, toJ) {
         // если победа, дальше игра не продолжается
         if (this.state.winner !== "") return
         // иначе продолжаем
-        if ((this.state.whiteIsNext && this.state.current[i][j][1] !== 'w') || (!this.state.whiteIsNext && this.state.current[i][j][1] !== 'b')) return;
+        if ((this.state.whiteIsNext && this.state.current[i][j][1] !== 'w') || (!this.state.whiteIsNext && this.state.current[i][j][1] !== 'b')) {
+            this.alertImpossibleMove()
+            return;
+        }
         if (this.state.mode === 'online') {
             let selfColor = this.state.side
             let myTurn = (selfColor === 'w' && this.state.whiteIsNext) || (selfColor === 'b' && !this.state.whiteIsNext)
@@ -116,6 +127,8 @@ class Game extends React.Component {
                             })
                         }
                     )
+                } else {
+                    this.alertImpossibleMove()
                 }
             })
         } else {
@@ -135,6 +148,8 @@ class Game extends React.Component {
                     highlight: this.getZeroHighlight(),
                     raisedCoords: {y: -1, x: -1}
                 })
+            } else {
+                this.alertImpossibleMove()
             }
         }
     }
@@ -221,6 +236,12 @@ class Game extends React.Component {
                                     <button onClick={this.exit}>
                                         Выйти
                                     </button>
+                                </div>
+                            }
+                            {
+                                this.state.impossibleMove &&
+                                <div className="fullscreen-alert">
+                                    <span>Недопустимый ход</span>
                                 </div>
                             }
                             <Board
