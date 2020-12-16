@@ -207,7 +207,7 @@ class Game extends React.Component {
     }
 
     render() {
-        if (this.state.id === null) {
+        if (this.state.id === null && this.state.mode === 'online') {
             return <div>Не выполнено подключение к игре</div>;
         } else {
             if (this.state.loading) {

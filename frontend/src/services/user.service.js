@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:3001/';
+const API_URL = 'http://ec2-3-138-245-221.us-east-2.compute.amazonaws.com:3001/';
 
 class UserService {
 
