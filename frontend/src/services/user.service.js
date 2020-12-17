@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = process.env.API_URL || 'https://ec2-3-138-245-221.us-east-2.compute.amazonaws.com:3001/';
+const API_URL = process.env.API_URL || 'http://ec2-3-138-245-221.us-east-2.compute.amazonaws.com:3001/';
 
 class UserService {
 
