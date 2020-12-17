@@ -45,7 +45,8 @@ class Game extends React.Component {
             gameOver: false,
             mode: localStorage.getItem("mode"),
             showIdAlert: true,
-            impossibleMove: false
+            impossibleMove: false,
+            turnStart: false
         }
         if (this.state.mode === 'online') {
             UserService.getGameState(localStorage.getItem("gameId")).then((state) => {
@@ -76,6 +77,12 @@ class Game extends React.Component {
     stateUpdater() {
         UserService.getGameState(localStorage.getItem("gameId")).then((state) => {
                 if (state[0] !== undefined) {
+                    let selfColor = this.state.side
+                    let myTurn = (selfColor === 'w' && this.state.whiteIsNext) || (selfColor === 'b' && !this.state.whiteIsNext)
+                    let curTurn = (selfColor === 'w' && state[0].whiteTurn) || (selfColor === 'b' && !state[0].whiteTurn)
+                    if (!myTurn && curTurn) {
+                        this.alertTurnStart()
+                    }
                     this.setState({
                         current: state[0].state,
                         whiteIsNext: state[0].whiteTurn,
@@ -91,6 +98,13 @@ class Game extends React.Component {
                 this.stateUpdater()
             }, 1000)
         }
+    }
+
+    alertTurnStart() {
+        this.setState({turnStart: true})
+        setTimeout(() => {
+            this.setState({turnStart: false})
+        }, 1500)
     }
 
     alertImpossibleMove() {
@@ -244,6 +258,12 @@ class Game extends React.Component {
                                     <span>Недопустимый ход</span>
                                 </div>
                             }
+                            {
+                                this.state.turnStart &&
+                                <div className="fullscreen-alert">
+                                    <span>Ваш ход!</span>
+                                </div>
+                            }
                             <Board
                                 side={this.state.side}
                                 current={this.state.current}
@@ -258,8 +278,10 @@ class Game extends React.Component {
                                                                     onClick={() => this.copyCode()}>⎘</span>
                                 </div>
                             }
-                            <div>Сейчас ходят: {this.state.whiteIsNext ? 'БЕЛЫЕ' : 'ЧЁРНЫЕ'}</div>
-                            <div>Ваш цвет: {this.state.side === 'w' ? "БЕЛЫЕ" : "ЧЁРНЫЕ"}</div>
+                            <div>Сейчас ходят: <span
+                                className="turn-highlight">{this.state.whiteIsNext ? 'БЕЛЫЕ' : 'ЧЁРНЫЕ'}</span></div>
+                            <div>Ваш цвет: <span
+                                className="turn-highlight">{this.state.side === 'w' ? "БЕЛЫЕ" : "ЧЁРНЫЕ"}</span></div>
                             <div>{this.state.checkSet !== "" ? "ШАХ" : ""}</div>
                             <div>{this.state.winner === 'w' ? "Победитель: БЕЛЫЕ" : this.state.winner === 'b' ? "Победитель: ЧЁРНЫЕ" : ""}</div>
                             <hr className="line"/>

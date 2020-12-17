@@ -330,7 +330,7 @@ let makeMove = (state, i, j, toI, toJ, whiteTurn, checkSet, history) => {
     } else if (state[i][j] === 'pb' && toI === 7) {
         state[i][j] = " "
         state[toI][toJ] = 'qb'
-    }else {
+    } else {
         state[i][j] = " "
         state[toI][toJ] = type
     }
@@ -345,7 +345,7 @@ let makeMove = (state, i, j, toI, toJ, whiteTurn, checkSet, history) => {
     } else {
         winner = ''
     }
-    let move = type[0] + numberToLetter(toJ + 1) + (toI + 1)
+    let move = type[0] + numberToLetter(toJ + 1) + (8 - toI)
     if (type[1] === 'w') {
         history.push({w: move, b: ""})
     } else {

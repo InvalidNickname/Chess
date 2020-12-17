@@ -72,6 +72,11 @@ ol, ul {
     border-bottom: 1px solid rgba(255, 255, 255, 0.3);
 }
 
+.turn-highlight {
+    background: black;
+    color: white;
+}
+
 .game {
     display: flex;
     flex-direction: row;
@@ -186,7 +191,7 @@ button:hover:after {
     font-size: 20px;
     background: white;
     padding: 4px;
-    border: darkgray 1px solid;
+    border: darkred 2px solid;
     transform: translate(-50%, -50%);
 }
 
