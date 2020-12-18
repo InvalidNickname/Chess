@@ -16,12 +16,12 @@ class App extends Component {
         }
         this.home = React.createRef()
         this.game = React.createRef()
-        /*this.assistaint = this.getAssistant(() => {
+        this.assistaint = this.getAssistant(() => {
             return {cur: this.state.cur}
         })
         this.assistaint.on("data", (event) => {
             this.processAction(event.action)
-        })*/
+        })
     }
 
     getAssistant(getState) {
