@@ -39,7 +39,7 @@ class Game extends React.Component {
             highlight: highlight,
             whiteIsNext: true,
             figureRaised: "",
-            side: localStorage.getItem("side"),
+            side: localStorage.getItem("mode") === 'offline' ? 'w' : localStorage.getItem("side"),
             raisedCoords: {y: -1, x: -1},
             history: [],
             gameOver: false,
@@ -233,8 +233,12 @@ class Game extends React.Component {
                             {
                                 this.state.showIdAlert && this.state.mode === 'online' && this.state.side === 'w' &&
                                 <div className="fullscreen-alert">
-                                    <span>Сообщите другому игроку этот код: {this.state.id}</span>
+                                    <span>Сообщите другому игроку этот код: <span
+                                        className="copyable">{this.state.id}</span></span>
                                     <br/>
+                                    <button onClick={() => this.copyCode()}>
+                                        Скопировать
+                                    </button>
                                     <button onClick={() => {
                                         this.setState({showIdAlert: false})
                                     }}>
@@ -274,14 +278,18 @@ class Game extends React.Component {
                         <div className="game-info" align="left">
                             {
                                 this.state.mode === 'online' &&
-                                <div>ID игры: {this.state.id} <span className="copy-button"
-                                                                    onClick={() => this.copyCode()}>⎘</span>
+                                <div>ID игры: <span className="copyable">{this.state.id}</span> <span
+                                    className="copy-button" onClick={() => this.copyCode()}>⎘</span>
                                 </div>
                             }
                             <div>Сейчас ходят: <span
                                 className="turn-highlight">{this.state.whiteIsNext ? 'БЕЛЫЕ' : 'ЧЁРНЫЕ'}</span></div>
-                            <div>Ваш цвет: <span
-                                className="turn-highlight">{this.state.side === 'w' ? "БЕЛЫЕ" : "ЧЁРНЫЕ"}</span></div>
+                            {
+                                this.state.mode === 'online' &&
+                                <div>Ваш цвет: <span
+                                    className="turn-highlight">{this.state.side === 'w' ? "БЕЛЫЕ" : "ЧЁРНЫЕ"}</span>
+                                </div>
+                            }
                             <div>{this.state.checkSet !== "" ? "ШАХ" : ""}</div>
                             <div>{this.state.winner === 'w' ? "Победитель: БЕЛЫЕ" : this.state.winner === 'b' ? "Победитель: ЧЁРНЫЕ" : ""}</div>
                             <hr className="line"/>

@@ -35,7 +35,7 @@ ol, ul {
     margin-right: -1px;
     margin-top: -1px;
     width: 9vh;
-    transition: 0.2s ease-out all;
+    transition: 0.1s ease-out all;
 }
 
 .square:focus {
@@ -103,6 +103,14 @@ ol, ul {
 
 .black {
     background: dimgray;
+}
+
+.square.white:hover {
+    background: #dddddd;
+}
+
+.square.black:hover {
+    background: #808080;
 }
 
 .white.highlight {
@@ -182,6 +190,11 @@ button:after {
 button:hover:after {
     background: darkgray;
     transition: 0.5s ease-out all;
+}
+
+.copyable {
+    user-select: text;
+
 }
 
 .fullscreen-alert {
