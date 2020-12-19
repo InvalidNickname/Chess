@@ -213,8 +213,12 @@ class Game extends React.Component {
     }
 
     copyCode() {
-        navigator.clipboard.writeText(this.state.id)
+        navigator.clipboard.writeText(this.state.id).then(() => {
+
+        })
     }
+
+
 
     dismissAlert() {
         this.setState({showIdAlert: false})

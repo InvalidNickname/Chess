@@ -73,11 +73,13 @@ class Home extends React.Component {
                 </button>
                 <hr className="line"/>
                 <button onClick={this.createGame}>
-                    Создать игру
+                    Создать игру по сети
                 </button>
                 <br/>
+                или
+                <br/>
                 <button onClick={this.joinGame}>
-                    Присоединиться
+                    Присоединиться к игре
                 </button>
                 <br/>
                 <input className="code-input" type="text" placeholder={"Код игры"} value={this.state.gameId}
