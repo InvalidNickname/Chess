@@ -194,7 +194,6 @@ button:hover:after {
 
 .copyable {
     user-select: text;
-
 }
 
 .fullscreen-alert {
@@ -204,7 +203,7 @@ button:hover:after {
     font-size: 20px;
     background: white;
     padding: 4px;
-    border: darkred 2px solid;
+    border: darkgrey 2px solid;
     transform: translate(-50%, -50%);
 }
 

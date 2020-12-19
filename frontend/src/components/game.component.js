@@ -33,9 +33,7 @@ class Game extends React.Component {
         this.state = {
             winner: "",
             checkSet: "",
-            loading: true,
             id: localStorage.getItem("gameId"),
-            current: undefined,
             highlight: highlight,
             whiteIsNext: true,
             figureRaised: "",
@@ -46,9 +44,11 @@ class Game extends React.Component {
             mode: localStorage.getItem("mode"),
             showIdAlert: true,
             impossibleMove: false,
-            turnStart: false
+            turnStart: false,
+            copiedId: false
         }
         if (this.state.mode === 'online') {
+            this.state.loading = true
             UserService.getGameState(localStorage.getItem("gameId")).then((state) => {
                     if (state[0] !== undefined) {
                         this.setState({
@@ -214,11 +214,9 @@ class Game extends React.Component {
 
     copyCode() {
         navigator.clipboard.writeText(this.state.id).then(() => {
-
+            this.setState({copiedId: true})
         })
     }
-
-
 
     dismissAlert() {
         this.setState({showIdAlert: false})
@@ -241,7 +239,7 @@ class Game extends React.Component {
                                         className="copyable">{this.state.id}</span></span>
                                     <br/>
                                     <button onClick={() => this.copyCode()}>
-                                        Скопировать
+                                        {this.state.copiedId ? "ID скопирован" : "Скопировать"}
                                     </button>
                                     <button onClick={() => {
                                         this.setState({showIdAlert: false})
@@ -283,7 +281,8 @@ class Game extends React.Component {
                             {
                                 this.state.mode === 'online' &&
                                 <div>ID игры: <span className="copyable">{this.state.id}</span> <span
-                                    className="copy-button" onClick={() => this.copyCode()}>⎘</span>
+                                    className="copy-button"
+                                    onClick={() => this.copyCode()}>{this.state.copiedId ? "✓" : "⎘"}</span>
                                 </div>
                             }
                             <div>Сейчас ходят: <span
