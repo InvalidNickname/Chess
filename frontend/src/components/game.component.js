@@ -33,15 +33,15 @@ class Game extends React.Component {
         this.state = {
             winner: "",
             checkSet: "",
-            id: localStorage.getItem("gameId"),
+            id: sessionStorage.getItem("gameId"),
             highlight: highlight,
             whiteIsNext: true,
             figureRaised: "",
-            side: localStorage.getItem("mode") === 'offline' ? 'w' : localStorage.getItem("side"),
+            side: sessionStorage.getItem("mode") === 'offline' ? 'w' : sessionStorage.getItem("side"),
             raisedCoords: {y: -1, x: -1},
             history: [],
             gameOver: false,
-            mode: localStorage.getItem("mode"),
+            mode: sessionStorage.getItem("mode"),
             showIdAlert: true,
             impossibleMove: false,
             turnStart: false,
@@ -49,7 +49,7 @@ class Game extends React.Component {
         }
         if (this.state.mode === 'online') {
             this.state.loading = true
-            UserService.getGameState(localStorage.getItem("gameId")).then((state) => {
+            UserService.getGameState(sessionStorage.getItem("gameId")).then((state) => {
                     if (state[0] !== undefined) {
                         this.setState({
                             loading: false,
@@ -75,7 +75,7 @@ class Game extends React.Component {
     }
 
     stateUpdater() {
-        UserService.getGameState(localStorage.getItem("gameId")).then((state) => {
+        UserService.getGameState(sessionStorage.getItem("gameId")).then((state) => {
                 if (state[0] !== undefined) {
                     let selfColor = this.state.side
                     let myTurn = (selfColor === 'w' && this.state.whiteIsNext) || (selfColor === 'b' && !this.state.whiteIsNext)
