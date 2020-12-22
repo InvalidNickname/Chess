@@ -29,7 +29,7 @@ class Home extends React.Component {
             sessionStorage.setItem("gameId", id)
             sessionStorage.setItem("side", "w")
             this.props.history.push("/game")
-            this.assistant.setSuggest("ОК")
+            this.assistant.sendData({action: {action_id: "started_online_host"}})
         })
     }
 
@@ -41,7 +41,7 @@ class Home extends React.Component {
                     sessionStorage.setItem("gameId", this.state.gameId)
                     sessionStorage.setItem("side", "b")
                     this.props.history.push("/game")
-                    this.assistant.setSuggest("Сделай ход е2 е4")
+                    this.assistant.sendData({action: {action_id: "started_online"}})
                 } else {
                     this.setState({wrongId: true})
                 }
@@ -56,7 +56,7 @@ class Home extends React.Component {
                 sessionStorage.setItem("gameId", id)
                 sessionStorage.setItem("side", "b")
                 this.props.history.push("/game")
-                this.assistant.setSuggest("Сделай ход е2 е4")
+                this.assistant.sendData({action: {action_id: "started_online"}})
             } else {
                 this.setState({wrongId: true})
             }
@@ -66,7 +66,7 @@ class Home extends React.Component {
     createOfflineGame() {
         sessionStorage.setItem("mode", "offline")
         this.props.history.push("/game")
-        this.assistant.setSuggest("Сделай ход е2 е4")
+        this.assistant.sendData({action: {action_id: "started_offline"}})
     }
 
     render() {

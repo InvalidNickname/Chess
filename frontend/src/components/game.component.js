@@ -73,6 +73,7 @@ class Game extends React.Component {
             this.state.loading = false
         }
         this.assistant = props.assistant
+        this.assistant.sendData({action: {action_id: "prepare_move"}})
     }
 
     stateUpdater() {
@@ -211,6 +212,7 @@ class Game extends React.Component {
 
     exit() {
         this.props.history.push("/")
+        this.assistant.sendData({action: {action_id: "return_to_start"}})
     }
 
     copyCode() {
@@ -221,7 +223,7 @@ class Game extends React.Component {
 
     dismissAlert() {
         this.setState({showIdAlert: false})
-        this.assistant.setSuggest("Сделай ход е2 е4")
+        this.assistant.sendData({action: {action_id: "suggest_move"}})
     }
 
     render() {
