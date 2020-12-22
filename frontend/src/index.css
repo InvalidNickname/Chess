@@ -213,6 +213,6 @@ button:hover:after {
 }
 
 /*для дебажного ассистента*/
-input#voice, .bubble {
+input#voice, .bubble, .suggest {
     color: black !important;
 }

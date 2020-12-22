@@ -13,6 +13,7 @@ class Home extends React.Component {
             gameId: undefined,
             wrongId: false
         }
+        this.assistant = props.assistant
     }
 
     onChange(e) {
@@ -28,6 +29,7 @@ class Home extends React.Component {
             sessionStorage.setItem("gameId", id)
             sessionStorage.setItem("side", "w")
             this.props.history.push("/game")
+            this.assistant.setSuggest("ОК")
         })
     }
 
@@ -39,6 +41,7 @@ class Home extends React.Component {
                     sessionStorage.setItem("gameId", this.state.gameId)
                     sessionStorage.setItem("side", "b")
                     this.props.history.push("/game")
+                    this.assistant.setSuggest("Сделай ход е2 е4")
                 } else {
                     this.setState({wrongId: true})
                 }
@@ -53,6 +56,7 @@ class Home extends React.Component {
                 sessionStorage.setItem("gameId", id)
                 sessionStorage.setItem("side", "b")
                 this.props.history.push("/game")
+                this.assistant.setSuggest("Сделай ход е2 е4")
             } else {
                 this.setState({wrongId: true})
             }
@@ -62,6 +66,7 @@ class Home extends React.Component {
     createOfflineGame() {
         sessionStorage.setItem("mode", "offline")
         this.props.history.push("/game")
+        this.assistant.setSuggest("Сделай ход е2 е4")
     }
 
     render() {

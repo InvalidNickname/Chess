@@ -72,6 +72,7 @@ class Game extends React.Component {
             this.state.current = GameChecker.setStartPositions()
             this.state.loading = false
         }
+        this.assistant = props.assistant
     }
 
     stateUpdater() {
@@ -220,6 +221,7 @@ class Game extends React.Component {
 
     dismissAlert() {
         this.setState({showIdAlert: false})
+        this.assistant.setSuggest("Сделай ход е2 е4")
     }
 
     render() {

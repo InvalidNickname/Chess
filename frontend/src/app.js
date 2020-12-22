@@ -16,10 +16,10 @@ class App extends Component {
         }
         this.home = React.createRef()
         this.game = React.createRef()
-        this.assistaint = this.getAssistant(() => {
+        this.assistant = this.getAssistant(() => {
             return {cur: this.state.cur}
         })
-        this.assistaint.on("data", (event) => {
+        this.assistant.on("data", (event) => {
             this.processAction(event.action)
         })
     }
@@ -102,10 +102,10 @@ class App extends Component {
                 <div>
                     <Switch>
                         <Route exact path="/" render={(props) => {
-                            return <Home {...props} ref={this.home}/>
+                            return <Home assistant={this.assistant} {...props} ref={this.home}/>
                         }}/>
                         <Route exact path="/game" render={(props) => {
-                            return <Game {...props} ref={this.game}/>
+                            return <Game assistant={this.assistant} {...props} ref={this.game}/>
                         }}/>
                     </Switch>
                 </div>
