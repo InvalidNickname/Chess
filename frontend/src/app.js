@@ -22,8 +22,9 @@ class App extends Component {
             return {cur: this.state.cur}
         })
         this.assistant.on("data", (event) => {
-            this.processAction(event.action)
+            this.processAction(event)
         })
+        this.assistant.sendData({action: {action_id: "return_to_start"}})
     }
 
     getAssistant(getState) {
@@ -37,7 +38,23 @@ class App extends Component {
         return createAssistant(getState)
     }
 
-    processAction(action) {
+    processAction(event) {
+        let command = event.navigation
+        if (command !== undefined) {
+            if (window.location.pathname === '/rules') {
+                switch (command.command) {
+                    case "UP":
+                        this.rules.current.scrollUp()
+                        break
+                    case "DOWN":
+                        this.rules.current.scrollDown()
+                        break
+                    default:
+                        break
+                }
+            }
+        }
+        let action = event.action
         if (action === undefined) return
         if (window.location.pathname === '/') {
             switch (action.type) {
