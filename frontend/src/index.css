@@ -8,6 +8,7 @@ body {
     margin: 20px;
     user-select: none;
     height: 95vh;
+    background: white;
 }
 
 ol, ul {
@@ -53,8 +54,8 @@ ol, ul {
 .horizontal-row-number {
     width: 9vh;
     height: 25px;
+    line-height: 25px;
     margin-right: 1px;
-    text-align: center;
     float: left;
 }
 
@@ -105,12 +106,8 @@ ol, ul {
     background: dimgray;
 }
 
-.square.white:hover {
-    background: #dddddd;
-}
-
-.square.black:hover {
-    background: #808080;
+.square:hover {
+    background: darkgrey;
 }
 
 .white.highlight {
@@ -159,6 +156,11 @@ button:hover {
     background: lightslategray;
 }
 
+.subtitle {
+    font-size: large;
+    font-weight: bold;
+}
+
 button:before {
     display: block;
     content: "";
@@ -185,6 +187,12 @@ button:after {
     right: -1px;
     background: white;
     position: absolute;
+}
+
+.rules-text {
+    max-width: 50vw;
+    overflow-y: auto;
+    max-height: 73vh;
 }
 
 button:hover:after {

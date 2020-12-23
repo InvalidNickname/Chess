@@ -9,6 +9,7 @@ class Home extends React.Component {
         this.createGame = this.createGame.bind(this)
         this.joinGame = this.joinGame.bind(this)
         this.createOfflineGame = this.createOfflineGame.bind(this)
+        this.openRules = this.openRules.bind(this)
         this.state = {
             gameId: undefined,
             wrongId: false
@@ -69,6 +70,11 @@ class Home extends React.Component {
         this.assistant.sendData({action: {action_id: "started_offline"}})
     }
 
+    openRules() {
+        this.props.history.push("/rules")
+        this.assistant.sendData({action: {action_id: "opened_rules"}})
+    }
+
     render() {
         return (
             <div>
@@ -89,6 +95,10 @@ class Home extends React.Component {
                 <input className="code-input" type="text" placeholder={"Код игры"} value={this.state.gameId}
                        onChange={this.onChange}/>
                 {this.state.wrongId ? <div className="error">Игры с таким кодом не существует</div> : ""}
+                <hr className="line"/>
+                <button onClick={this.openRules}>
+                    Открыть правила
+                </button>
             </div>
         )
     }

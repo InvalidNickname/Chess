@@ -23,6 +23,22 @@ class Board extends React.Component {
         );
     }
 
+    boardRow(side) {
+        return (
+            <div className="board-row">
+                <div className={"empty-square"}/>
+                <div className={"horizontal-row-number"}>{side === 'b' ? "H" : "A"}</div>
+                <div className={"horizontal-row-number"}>{side === 'b' ? "G" : "B"}</div>
+                <div className={"horizontal-row-number"}>{side === 'b' ? "F" : "C"}</div>
+                <div className={"horizontal-row-number"}>{side === 'b' ? "E" : "D"}</div>
+                <div className={"horizontal-row-number"}>{side === 'b' ? "D" : "E"}</div>
+                <div className={"horizontal-row-number"}>{side === 'b' ? "C" : "F"}</div>
+                <div className={"horizontal-row-number"}>{side === 'b' ? "B" : "G"}</div>
+                <div className={"horizontal-row-number"}>{side === 'b' ? "A" : "H"}</div>
+            </div>
+        )
+    }
+
     render() {
         let board = Array(8)
         if (this.props.side === 'w') {
@@ -42,49 +58,48 @@ class Board extends React.Component {
         }
         return (
             <div>
-                <div className="board-row">
-                    <div className={"empty-square"}/>
-                    <div className={"horizontal-row-number"}>{this.props.side === 'b' ? "H" : "A"}</div>
-                    <div className={"horizontal-row-number"}>{this.props.side === 'b' ? "G" : "B"}</div>
-                    <div className={"horizontal-row-number"}>{this.props.side === 'b' ? "F" : "C"}</div>
-                    <div className={"horizontal-row-number"}>{this.props.side === 'b' ? "E" : "D"}</div>
-                    <div className={"horizontal-row-number"}>{this.props.side === 'b' ? "D" : "E"}</div>
-                    <div className={"horizontal-row-number"}>{this.props.side === 'b' ? "C" : "F"}</div>
-                    <div className={"horizontal-row-number"}>{this.props.side === 'b' ? "B" : "G"}</div>
-                    <div className={"horizontal-row-number"}>{this.props.side === 'b' ? "A" : "H"}</div>
-                </div>
+                {this.boardRow(this.props.side)}
                 <div className="board-row">
                     <div className={"vertical-row-number"}>{this.props.side === 'b' ? "1" : "8"}</div>
                     {board[0]}
+                    <div className={"vertical-row-number"}>{this.props.side === 'b' ? "1" : "8"}</div>
                 </div>
                 <div className="board-row">
                     <div className={"vertical-row-number"}>{this.props.side === 'b' ? "2" : "7"}</div>
                     {board[1]}
+                    <div className={"vertical-row-number"}>{this.props.side === 'b' ? "2" : "7"}</div>
                 </div>
                 <div className="board-row">
                     <div className={"vertical-row-number"}>{this.props.side === 'b' ? "3" : "6"}</div>
                     {board[2]}
+                    <div className={"vertical-row-number"}>{this.props.side === 'b' ? "3" : "6"}</div>
                 </div>
                 <div className="board-row">
                     <div className={"vertical-row-number"}>{this.props.side === 'b' ? "4" : "5"}</div>
                     {board[3]}
+                    <div className={"vertical-row-number"}>{this.props.side === 'b' ? "4" : "5"}</div>
                 </div>
                 <div className="board-row">
                     <div className={"vertical-row-number"}>{this.props.side === 'b' ? "5" : "4"}</div>
                     {board[4]}
+                    <div className={"vertical-row-number"}>{this.props.side === 'b' ? "5" : "4"}</div>
                 </div>
                 <div className="board-row">
                     <div className={"vertical-row-number"}>{this.props.side === 'b' ? "6" : "3"}</div>
                     {board[5]}
+                    <div className={"vertical-row-number"}>{this.props.side === 'b' ? "6" : "3"}</div>
                 </div>
                 <div className="board-row">
                     <div className={"vertical-row-number"}>{this.props.side === 'b' ? "7" : "2"}</div>
                     {board[6]}
+                    <div className={"vertical-row-number"}>{this.props.side === 'b' ? "7" : "2"}</div>
                 </div>
                 <div className="board-row">
                     <div className={"vertical-row-number"}>{this.props.side === 'b' ? "8" : "1"}</div>
                     {board[7]}
+                    <div className={"vertical-row-number"}>{this.props.side === 'b' ? "8" : "1"}</div>
                 </div>
+                {this.boardRow(this.props.side)}
             </div>
         );
     }

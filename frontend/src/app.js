@@ -3,6 +3,7 @@ import {Switch, Route} from "react-router-dom";
 import Game from "./components/game.component";
 import Home from "./components/home.component";
 import {createAssistant, createSmartappDebugger} from "@sberdevices/assistant-client";
+import RuleBook from "./components/rulebook.component";
 
 class App extends Component {
 
@@ -16,6 +17,7 @@ class App extends Component {
         }
         this.home = React.createRef()
         this.game = React.createRef()
+        this.rules = React.createRef()
         this.assistant = this.getAssistant(() => {
             return {cur: this.state.cur}
         })
@@ -49,10 +51,13 @@ class App extends Component {
                     let code = action.code.replaceAll(' ', '').toUpperCase()
                     this.home.current.joinGameById(code)
                     break
+                case "open_rules":
+                    this.home.current.openRules()
+                    break
                 default:
                     break
             }
-        } else {
+        } else if (window.location.pathname === '/game') {
             switch (action.type) {
                 case "make_move":
                     let j = this.letterToNumber(action.from[0])
@@ -66,6 +71,20 @@ class App extends Component {
                     break
                 case "exit":
                     this.game.current.exit()
+                    break
+                default:
+                    break
+            }
+        } else {
+            switch (action.type) {
+                case "exit":
+                    this.rules.current.goBack()
+                    break
+                case "scroll_up":
+                    this.rules.current.scrollUp()
+                    break
+                case "scroll_down":
+                    this.rules.current.scrollDown()
                     break
                 default:
                     break
@@ -106,6 +125,9 @@ class App extends Component {
                         }}/>
                         <Route exact path="/game" render={(props) => {
                             return <Game assistant={this.assistant} {...props} ref={this.game}/>
+                        }}/>
+                        <Route exact path="/rules" render={(props) => {
+                            return <RuleBook assistant={this.assistant} {...props} ref={this.rules}/>
                         }}/>
                     </Switch>
                 </div>
