@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = process.env.NODE_ENV === 'development' ? 'http://localhost:3001/' : 'https://ec2-3-138-245-221.us-east-2.compute.amazonaws.com/';
+const API_URL = process.env.NODE_ENV === 'development' ? 'http://localhost:3001/' : 'https://sberchess.wrtc.ru/';
 
 class UserService {
 
