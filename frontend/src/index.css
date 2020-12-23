@@ -223,3 +223,8 @@ button:hover:after {
     position: absolute;
     bottom: 0;
 }
+
+/*для дебажного ассистента*/
+input#voice, .bubble, .suggest {
+    color: black !important;
+}
