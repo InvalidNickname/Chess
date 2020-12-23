@@ -7,8 +7,12 @@ body {
     font: 14px "Century Gothic", Futura, sans-serif;
     margin: 20px;
     user-select: none;
-    height: 95vh;
+    height: 80vh;
     background: white;
+    color: gray;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 ol, ul {
@@ -218,9 +222,4 @@ button:hover:after {
 .exit-button {
     position: absolute;
     bottom: 0;
-}
-
-/*для дебажного ассистента*/
-input#voice, .bubble, .suggest {
-    color: black !important;
 }
