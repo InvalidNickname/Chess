@@ -15,7 +15,7 @@ class App extends Component {
             cur: 'home',
             action: '',
         }
-        this.nonFormal = false
+        this.typeSet = false
         this.home = React.createRef()
         this.game = React.createRef()
         this.rules = React.createRef()
@@ -23,19 +23,15 @@ class App extends Component {
             return {cur: this.state.cur}
         })
         this.assistant.on("data", (event) => {
-            if (event.type === "character") {
+            if (event.type === 'character' && this.typeSet === false) {
                 if (event.character.id === 'joy') {
-                    this.nonFormal = true
+                    this.assistant.sendData({action: {action_id: "first_start_non_formal"}})
+                } else {
+                    this.assistant.sendData({action: {action_id: "first_start"}})
                 }
+                this.typeSet = true
             } else {
                 this.processAction(event)
-            }
-        })
-        this.assistant.on("start", (event) => {
-            if (this.nonFormal) {
-                this.assistant.sendData({action: {action_id: "first_start_non_formal"}})
-            } else {
-                this.assistant.sendData({action: {action_id: "first_start"}})
             }
         })
     }
