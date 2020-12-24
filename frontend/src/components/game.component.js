@@ -73,7 +73,6 @@ class Game extends React.Component {
             this.state.loading = false
         }
         this.assistant = props.assistant
-        this.assistant.sendData({action: {action_id: "prepare_move"}})
     }
 
     stateUpdater() {
