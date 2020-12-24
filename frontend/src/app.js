@@ -24,7 +24,11 @@ class App extends Component {
         this.assistant.on("data", (event) => {
             this.processAction(event)
         })
-        this.assistant.sendData({action: {action_id: "return_to_start"}})
+
+        this.assistant.on("start", (event) => {
+            console.log('aaa')
+            this.assistant.sendData({action: {action_id: "first_start"}})
+        })
     }
 
     getAssistant(getState) {
