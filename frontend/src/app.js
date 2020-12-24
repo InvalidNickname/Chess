@@ -49,9 +49,11 @@ class App extends Component {
                 switch (command.command) {
                     case "UP":
                         this.rules.current.scrollUp()
+                        this.assistant.sendData({action: {action_id: "opened_rules"}})
                         break
                     case "DOWN":
                         this.rules.current.scrollDown()
+                        this.assistant.sendData({action: {action_id: "opened_rules"}})
                         break
                     default:
                         break
