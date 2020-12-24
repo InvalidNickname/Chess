@@ -26,7 +26,6 @@ class App extends Component {
         })
 
         this.assistant.on("start", (event) => {
-            console.log('aaa')
             this.assistant.sendData({action: {action_id: "first_start"}})
         })
     }
