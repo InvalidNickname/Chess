@@ -133,6 +133,39 @@ let kingMoveCheck = (i, j, board, type, basic) => {
             }
         }
     }
+    // нельзя ходит на клетки, которые бьёт противник
+    for (let y = 0; y < 8; y++) {
+        for (let x = 0; x < 8; x++) {
+            if (isEnemy(y, x, board, type[1]) && board[y][x][0] !== 'k') {
+                if (board[y][x][0] === 'p') {
+                    if (board[y][x][1] === 'w') {
+                        if (x < 7 && y > 0) {
+                            basic[y - 1][x + 1] = 0
+                        }
+                        if (x > 0 && y > 0) {
+                            basic[y - 1][x - 1] = 0
+                        }
+                    } else {
+                        if (x < 7 && y < 7) {
+                            basic[y + 1][x + 1] = 0
+                        }
+                        if (x > 0 && y < 7) {
+                            basic[y + 1][x - 1] = 0
+                        }
+                    }
+                } else {
+                    let highlight = getHighlight(y, x, board)
+                    for (let y_i = 0; y_i < 8; y_i++) {
+                        for (let x_j = 0; x_j < 8; x_j++) {
+                            if (highlight[y_i][x_j]) {
+                                basic[y_i][x_j] = 0
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
 
 let rookMoveCheck = (i, j, board, type, basic) => {
