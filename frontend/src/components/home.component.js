@@ -94,7 +94,13 @@ class Home extends React.Component {
                 </button>
                 <br/>
                 <input className="code-input" type="text" placeholder={"Код игры"} value={this.state.gameId}
-                       onChange={this.onChange}/>
+                       onChange={this.onChange}
+                       onKeyPress={(event) => {
+                           if (event.charCode === 13) {
+                               this.joinGame()
+                           }
+                       }}
+                />
                 {this.state.wrongId ? <div className="error">Игры с таким кодом не существует</div> : ""}
                 <hr className="line"/>
                 <button onClick={this.openRules}>
