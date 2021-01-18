@@ -48,6 +48,26 @@ class App extends Component {
     }
 
     processAction(event) {
+        let sysCommand = event.system
+        if (sysCommand !== undefined) {
+            if (window.location.pathname === '/rules') {
+                switch (sysCommand.command) {
+                    case "BACK":
+                        this.rules.current.goBack()
+                        break
+                    default:
+                        break
+                }
+            } else if (window.location.pathname === '/game') {
+                switch (sysCommand.command) {
+                    case "BACK":
+                        this.game.current.exit()
+                        break
+                    default:
+                        break
+                }
+            }
+        }
         let command = event.navigation
         if (command !== undefined) {
             if (window.location.pathname === '/rules') {
@@ -76,8 +96,12 @@ class App extends Component {
                     this.home.current.createGame()
                     break
                 case "join_game":
-                    let code = action.code.replaceAll(' ', '').toUpperCase()
-                    this.home.current.joinGameById(code)
+                    if (action.code !== undefined) {
+                        let code = action.code.replaceAll(' ', '').toUpperCase()
+                        this.home.current.joinGameById(code)
+                    } else {
+                        this.assistant.sendData({action: {action_id: "wrong_id"}})
+                    }
                     break
                 case "open_rules":
                     this.home.current.openRules()

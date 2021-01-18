@@ -29,6 +29,7 @@ class Game extends React.Component {
     constructor(props) {
         super(props)
         this.exit = this.exit.bind(this)
+        this.afterRotation = this.afterRotation.bind(this)
         let highlight = this.getZeroHighlight()
         this.state = {
             winner: "",
@@ -149,24 +150,28 @@ class Game extends React.Component {
         } else {
             if (GameChecker.getHighlight(i, j, this.state.current)[toI][toJ]) {
                 let newState = GameChecker.makeMove(
-                    this.state.current, i, j, toI, toJ,
-                    this.state.whiteIsNext, this.state.checkSet, this.state.history
+                    this.state.current, i, j, toI, toJ, this.state.whiteIsNext, this.state.checkSet, this.state.history
                 )
-                this.setState({
-                    winner: newState.winner,
-                    checkSet: newState.check,
-                    current: newState.state,
-                    history: newState.history,
-                    side: this.state.side === 'w' ? 'b' : 'w',
-                    figureRaised: "",
-                    whiteIsNext: newState.whiteTurn,
-                    highlight: this.getZeroHighlight(),
-                    raisedCoords: {y: -1, x: -1}
-                })
+                this.setState({boardRotation: true, tempState: newState, highlight: this.getZeroHighlight()})
+                setTimeout(this.afterRotation, 1500)
             } else {
                 this.alertImpossibleMove()
             }
         }
+    }
+
+    afterRotation() {
+        this.setState({
+            boardRotation: false,
+            winner: this.state.tempState.winner,
+            checkSet: this.state.tempState.check,
+            current: this.state.tempState.state,
+            history: this.state.tempState.history,
+            side: this.state.side === 'w' ? 'b' : 'w',
+            figureRaised: "",
+            whiteIsNext: this.state.tempState.whiteTurn,
+            raisedCoords: {y: -1, x: -1}
+        })
     }
 
     handleClick(i, j) {
@@ -234,7 +239,7 @@ class Game extends React.Component {
             } else {
                 return (
                     <div className="game">
-                        <div className="game-board">
+                        <div className={this.state.boardRotation ? "game-board animated" : "game-board"}>
                             {
                                 this.state.showIdAlert && this.state.mode === 'online' && this.state.side === 'w' &&
                                 <div className="fullscreen-alert">
@@ -257,7 +262,7 @@ class Game extends React.Component {
                                     <span>{this.state.winner === 'w' ? "Победитель: БЕЛЫЕ" : this.state.winner === 'b' ? "Победитель: ЧЁРНЫЕ" : ""}</span>
                                     <br/>
                                     <button onClick={this.exit}>
-                                        Выйти
+                                        Выйти в меню
                                     </button>
                                 </div>
                             }

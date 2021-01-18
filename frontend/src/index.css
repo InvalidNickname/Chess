@@ -52,6 +52,7 @@ ol, ul {
     height: 9vh;
     width: 25px;
     text-align: center;
+    font-size: large;
     float: left;
 }
 
@@ -60,6 +61,7 @@ ol, ul {
     height: 25px;
     line-height: 25px;
     margin-right: 1px;
+    font-size: large;
     float: left;
 }
 
@@ -100,6 +102,12 @@ ol, ul {
 
 .game-board {
     position: relative;
+}
+
+.game-board.animated {
+    transition: 1.5s;
+    transform: rotate(180deg);
+    -webkit-transform: rotate(180deg);
 }
 
 .white {

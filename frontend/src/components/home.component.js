@@ -42,7 +42,7 @@ class Home extends React.Component {
                     sessionStorage.setItem("gameId", this.state.gameId)
                     sessionStorage.setItem("side", "b")
                     this.props.history.push("/game")
-                    this.assistant.sendData({action: {action_id: "started_online"}})
+                    this.assistant.sendData({action: {action_id: "joined_online"}})
                 } else {
                     this.setState({wrongId: true})
                 }
@@ -57,9 +57,10 @@ class Home extends React.Component {
                 sessionStorage.setItem("gameId", id)
                 sessionStorage.setItem("side", "b")
                 this.props.history.push("/game")
-                this.assistant.sendData({action: {action_id: "started_online"}})
+                this.assistant.sendData({action: {action_id: "joined_online"}})
             } else {
                 this.setState({wrongId: true})
+                this.assistant.sendData({action: {action_id: "wrong_id"}})
             }
         })
     }
