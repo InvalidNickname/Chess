@@ -106,14 +106,14 @@ class Game extends React.Component {
         this.setState({turnStart: true})
         setTimeout(() => {
             this.setState({turnStart: false})
-        }, 1500)
+        }, 2500)
     }
 
     alertImpossibleMove() {
         this.setState({impossibleMove: true})
         setTimeout(() => {
             this.setState({impossibleMove: false})
-        }, 1500)
+        }, 2500)
     }
 
     makeMove(i, j, toI, toJ) {

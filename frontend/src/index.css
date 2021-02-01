@@ -220,7 +220,7 @@ button:hover:after {
     position: absolute;
     top: 50%;
     left: 50%;
-    font-size: 20px;
+    font-size: 25px;
     background: white;
     padding: 4px;
     border: darkgrey 2px solid;
